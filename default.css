@@ -1,0 +1,16 @@
+body {
+	background: Black;
+	font-family: monospace;
+	color: Silver;
+	text-align: justify;
+}
+
+a:link {
+	color: Lime;
+}
+
+a:visited {
+	color: Green;
+}
+
+a:active {color: #0000FF}
