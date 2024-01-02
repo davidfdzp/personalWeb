@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict/EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link rel="shortcut icon" href="favicon.ico">
+<meta http-equiv="Content-Type" content="text/html";charset="iso-8859-1" />
+<title>Mezcla</title>
+<script type="text/javascript">
+// from http://sedition.com/perl/javascript-fy.html
+function fisherYates ( myArray ) {
+  var i = myArray.length;
+  if ( i == 0 ) return false;
+  while ( --i ) {
+     var j = Math.floor( Math.random() * ( i + 1 ) );
+     var tempi = myArray[i];
+     var tempj = myArray[j];
+     myArray[i] = tempj;
+     myArray[j] = tempi;
+   }
+}
+// from http://javascript.about.com/library/blvalid02.htm
+var numb = '0123456789';
+var lwr = 'aáàbcçdeéèfghiíjklmnñoóòpqrstuúvwxyz';
+var upr = 'AÁÀBCÇDEÉÈFGHIÍJKLMNÑOÓÒPQRSTUÚVWXYZ';
+
+function isValid(parm,val) {
+	if (parm == "") return true;
+	for (i=0; i<parm.length; i++) {
+		if (val.indexOf(parm.charAt(i),0) == -1) return false;
+	}
+	return true;
+}
+
+function isNumber(parm) {return isValid(parm,numb);}
+function isLower(parm) {return isValid(parm,lwr);}
+function isUpper(parm) {return isValid(parm,upr);}
+function isAlpha(parm) {return isValid(parm,lwr+upr);}
+function isAlphanum(parm) {return isValid(parm,lwr+upr+numb);}
+function ProcessWord( word ){
+	if(word.length < 4) return word;
+	var array = new Array();
+	for(var j=1; j<word.length-1; j++) array[j] = word.charAt(j);
+	fisherYates(array);
+	return word.charAt(0) + array.join("") + word.charAt(word.length-1);
+}
+function ProcessLine( line ){
+	newline = "";
+	var word = "";
+	var inword = false;
+	for(var i=0; i<line.length; i++){
+		if(isAlpha(line.charAt(i))){
+			inword = true;
+			word += line.charAt(i);
+			continue;
+		}else{
+			if(inword){
+				newline += ProcessWord(word);
+				word = "";
+				inword = false;
+			}
+			newline += line.charAt(i);
+		}
+	}
+	if(inword) newline += ProcessWord(word);
+	return newline;
+}
+function Scramble(){
+	var mytext = document.forms.words.mytext.value;
+	// Process mytext line by line
+	if(document.all) { // IE
+		lines=mytext.split("\r\n");		
+	}
+	else { //Mozilla
+		lines=mytext.split("\n");
+	}
+	for(var numlin=0; numlin<lines.length; numlin++){
+		/// Process each line words
+		if(lines[numlin].length > 3){
+			newline = ProcessLine(lines[numlin]);
+			lines[numlin] = newline;
+		}
+	}
+	if(document.all) { // IE
+		document.forms.words.mytext.value = lines.join("\r\n");
+	}
+	else { //Mozilla
+		document.forms.words.mytext.value = lines.join("\n");
+	}
+}
+</script>
+</head>
+<body>
+<form action="" id="words">
+<p>
+<h1>Mezcla</h1>
+<textarea name="mytext" id="mytext" rows="10" cols="80">
+No pdeuo cerer que rneeltame etvreusia eeennddnito lo que etbsaa lenedyo.
+La pioentca fanomenel de la mtene hmnuaa, de aucrdeo con un euidtso de
+la Uirseavindd de Cmbagdire, hcae que no imrtpoe el oedrn en que ceooqumols
+las lrteas en una prbalaa, solo iptorma que la prmirea y la úmlita lerta
+de la plbaraa tgnaen el lugar ccorreto. El rteso peude ser un ctoemlpo lío y
+aún puedes lreleo sin pembrola. Etso es porque la mente hamuna no lee cada
+lerta, sino la prabala al clmpetoo. Marvasollio, ¿eh? sí y yo que sremipe
+pesné que escbriir bien era iamntprtoe.
+</textarea>
+<br />
+<input type="button" id="scramble" value="Mezcla" onclick="Scramble();" />
+</form>
+<br />
+Fuente: <a href="scramble.html">Versi&oacute;n en ingl&eacute;s</a>
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-2229844-1";
+urchinTracker();
+</script>
+</body>
+
