@@ -1,6 +1,8 @@
 body {
 	background: Black;
-	font-family: monospace;
+	font-family: 'GNUTypewriterStandard';
+   	font-weight: normal;
+   	font-style: normal; 
 	color: Silver;
 	text-align: justify;
 }
